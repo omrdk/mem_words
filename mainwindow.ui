@@ -189,6 +189,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QPushButton" name="btn_rst">
+              <property name="text">
+               <string>Rst Words</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QPushButton" name="btn_exit">
               <property name="text">
                <string>End</string>
@@ -212,7 +219,7 @@
      <x>0</x>
      <y>0</y>
      <width>443</width>
-     <height>35</height>
+     <height>28</height>
     </rect>
    </property>
   </widget>

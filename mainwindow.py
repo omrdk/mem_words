@@ -12,8 +12,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QPushButton, QApplication, QLabel, QMainWindow, QShortcut, QAction, qApp, QMessageBox
 
-
-
 file   = open('words.txt', 'r')         # *.txt file reading mode
 lines   = file.readlines()              # readlines
 file.close()                            # no longer need *.txt so close
@@ -23,13 +21,14 @@ class mainwindow(QMainWindow):
         super(mainwindow, self).__init__(*args, **kwargs)
 
         uic.loadUi("mainwindow.ui", self)   # ui import
-
+        global true_word
         global tr_word
         global cnt_t
         global cnt_f
+        global selected_indexes
         cnt_t = 0
         cnt_f = 3
-
+        selected_indexes = []                                 # indexes of selected lines
         self.main_view()                                          # First screen
 
         # Toolbar configuration
@@ -47,6 +46,7 @@ class mainwindow(QMainWindow):
         self.btn_skip  = self.findChild(QPushButton, "btn_skip" )
         self.btn_start = self.findChild(QPushButton, "btn_start")
         self.btn_end   = self.findChild(QPushButton, "btn_exit" )
+        self.btn_rst   = self.findChild(QPushButton, "btn_rst")
         self.btn_A   = self.findChild(QPushButton, "btn_A")
         self.btn_B   = self.findChild(QPushButton, "btn_B")
         self.btn_C   = self.findChild(QPushButton, "btn_C")
@@ -61,6 +61,7 @@ class mainwindow(QMainWindow):
         self.btn_start.clicked.connect(self.back_count)                         # if btn_start is pressed then call fill_word function
         self.btn_skip.clicked.connect(self.fill_word)                           # if btn_slip is pressed then call fill_word function
         self.btn_exit.clicked.connect(self.main_view)                           # if btn_start is pressed then call main_page function
+        self.btn_rst.clicked.connect(self.rst_words)
         self.btn_A.clicked.connect(lambda: self.check_word(self.btn_A.text()))  # btn_A'nın text'ini check_word fonksiyonuna gönderir
         self.btn_B.clicked.connect(lambda: self.check_word(self.btn_B.text()))  # if btn_start is pressed then call main_page function
         self.btn_C.clicked.connect(lambda: self.check_word(self.btn_C.text()))  # if btn_start is pressed then call main_page function
@@ -86,6 +87,7 @@ class mainwindow(QMainWindow):
         self.lbl_count.setText(str(cnt_t))
         self.lbl_1.setText(str(cnt_f))
         self.btn_skip.setEnabled(False)
+        self.btn_rst.setEnabled(False)
         self.btn_start.setEnabled(True)
         self.btn_A.setEnabled(False)
         self.btn_B.setEnabled(False)
@@ -97,7 +99,7 @@ class mainwindow(QMainWindow):
         for i in range(3,0,-1):
             if i > 0:
                 self.lbl_word.setText(str(i))
-                QtTest.QTest.qWait(1000)                                        #  time.sleep() is freezing the GUI!!
+                QtTest.QTest.qWait(100)                                        #  time.sleep() is freezing the GUI!!
         self.fill_word()
         # Init states for buttons
         self.btn_skip.setEnabled(True)                                          # skip button is checkable now
@@ -116,25 +118,44 @@ class mainwindow(QMainWindow):
 
     # Insert to 'r' a random line number from words.txt and assign the name one of our buttons then do this for every index
     def fill_word(self):
+        global selected_indexes
+        if (len(lines) - len(selected_indexes) < 4):
+            self.lbl_word.setText("Add words to your dictionary or reset the words")
+            self.btn_rst.setEnabled(True)
+            self.btn_A.setEnabled(False)
+            self.btn_B.setEnabled(False)
+            self.btn_C.setEnabled(False)
+            self.btn_D.setEnabled(False)
+            return
+
         choice_list = [0,1,2,3]
         btn_lst = [self.btn_A, self.btn_B, self.btn_C, self.btn_D]
+        random_nums = []                                                                           # şıkların satır sayıları
+        words = []
         for i in range(0,4,1):
-            r = random.randint(0,len(lines)-1)                                  # 0 to length of lines(length is how many words in your words.txt)
-            line = lines[r].rstrip("\n").strip()                                # rstrip erases the default which is hindmost, strip erases the space which is hindmost
-            words = line.split("=")                                             # divide the words two pieces and insert them to words list
-            en_word = words[0].strip()                                          # strip erases the space which is hindmost
-            global tr_word
+            random_num = random.randint(0,len(lines) - 1)                                          # sonuncuyu alıyor mu??
+            while ((random_num in random_nums) or (random_num in selected_indexes)):               # eğer olusturdugumuz random sayı random listte varsa veya onceden secılmısse tekrar random al
+                random_num = random.randint(0,len(lines) - 1)
+            random_nums.append(random_num)
+            random_word = lines[random_num]
+            words = random_word.split("=")
+            en_word = words[0].strip()
             tr_word = words[1].strip()
-            self.lbl_word.setText(en_word)                                      # print en_word to lbl_word label
-
+            if i == 0:
+                self.lbl_word.setText(en_word)
+                global true_word
+                true_word = tr_word
+                selected_indexes.append(random_num)
             j = random.choice(choice_list)
             btn_lst[j].setText(tr_word)
-            choice_list.remove(j)
-            #j = random.randint(0, 4)
+            choice_list.remove(j)                                                                  # boş şık kalmasın
+        #print(*random_nums)
+
 
     # Check the words, if they match than plus 1 true counter(cnt_t), else minus 1 false counter(cnt_f)
     def check_word(self, btn_word):
-        if btn_word == tr_word:
+        global true_word
+        if btn_word == true_word:
             global cnt_t
             cnt_t+=1
             self.lbl_count.setText(str(cnt_t))
@@ -147,6 +168,10 @@ class mainwindow(QMainWindow):
                 self.main_view()
                 return
             self.fill_word()
+
+    def rst_words(self):
+        global selected_indexes
+        selected_indexes = []                       # btn_rst basıldığında tekrarlanan sayıları tekrar listeye ekler
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
