@@ -3,7 +3,9 @@ import os
 import sys
 import time
 import random
+import pygame
 import subprocess
+from playsound import playsound
 from PyQt5.QtGui     import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore    import *
@@ -20,6 +22,8 @@ file.close()                            # no longer need *.txt so close
 class mainwindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(mainwindow, self).__init__(*args, **kwargs)
+
+
 
         uic.loadUi("mainwindow.ui", self)   # ui import
         global true_word
@@ -54,6 +58,8 @@ class mainwindow(QMainWindow):
         self.btn_B   = self.findChild(QPushButton, "btn_B")
         self.btn_C   = self.findChild(QPushButton, "btn_C")
         self.btn_D   = self.findChild(QPushButton, "btn_D")
+
+
         # Shortcuts for buttons
         #self.btn_A.setShortcut( QKeySequence("1") )
         #self.btn_B.setShortcut( QKeySequence("2") )
@@ -75,9 +81,11 @@ class mainwindow(QMainWindow):
         self.show()
     # open words.txt
     def open_txt(self):
+        #pygame.mixer.init()
+        pygame.mixer.music.load('sounds/page-flip.wav')                         # only for wav files and you have to install pygame from pip
+        pygame.mixer.music.play(1)
         #os.system("kate words.txt")
         subprocess.call(('xdg-open', 'words.txt'))                              # opens a file default OS app
-
     # closeEvent
     def closeEvent(self, event):
         reply = QMessageBox.question(self, 'Close', 'Are you sure?', QMessageBox.Yes | QMessageBox.No, QMessageBox.Yes)
@@ -108,7 +116,10 @@ class mainwindow(QMainWindow):
         for i in range(3,0,-1):
             if i > 0:
                 self.lbl_word.setText(str(i))
-                QtTest.QTest.qWait(1000)                                         #  time.sleep() is freezing the GUI!!
+                QtTest.QTest.qWait(1000)
+                pygame.mixer.init()
+                pygame.mixer.music.load('sounds/countdown.wav')                         # only for wav files and you have to install pygame from pip
+                pygame.mixer.music.play(1)                                        #  time.sleep() is freezing the GUI!!
         self.fill_word()
         # Init states for buttons
         self.btn_skip.setEnabled(True)                                          # skip button is checkable now
@@ -124,7 +135,6 @@ class mainwindow(QMainWindow):
         cnt_f = 3
         self.lbl_count.setText(str(cnt_t))
         self.lbl_HP.setText(str(cnt_f))
-
     # Insert to 'r' a random line number from words.txt and assign the name one of our buttons then do this for every index
     def fill_word(self):
         global selected_indexes
@@ -170,6 +180,10 @@ class mainwindow(QMainWindow):
             global cnt_t
             cnt_t+=1
             self.lbl_count.setText(str(cnt_t))
+            pygame.mixer.init()
+            pygame.mixer.music.load('sounds/true.wav')                         # only for wav files and you have to install pygame from pip
+            pygame.mixer.music.play(1)
+
             self.fill_word()
         else:
             self.wrong_blink()
@@ -187,16 +201,19 @@ class mainwindow(QMainWindow):
         selected_indexes = []
 
     def wrong_blink(self):
+        pygame.mixer.init()
+        pygame.mixer.music.load('sounds/wrong.wav')                         # only for wav files and you have to install pygame from pip
+        pygame.mixer.music.play(1)
         self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0)")
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(198,0,0)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
         QtTest.QTest.qWait(150)
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(198,0,0)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
         QtTest.QTest.qWait(150)
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(198,0,0)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
         QtTest.QTest.qWait(150)
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
         self.lbl_HP.setStyleSheet("background-color : #1155AD")
