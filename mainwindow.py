@@ -81,8 +81,8 @@ class mainwindow(QMainWindow):
         self.show()
     # open words.txt
     def open_txt(self):
-        #pygame.mixer.init()
-        pygame.mixer.music.load('sounds/page-flip.wav')                         # only for wav files and you have to install pygame from pip
+        pygame.mixer.init()
+        pygame.mixer.music.load('sounds/page-open.wav')                         # only for wav files and you have to install pygame from pip
         pygame.mixer.music.play(1)
         #os.system("kate words.txt")
         subprocess.call(('xdg-open', 'words.txt'))                              # opens a file default OS app
