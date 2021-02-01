@@ -45,7 +45,8 @@
            </size>
           </property>
           <property name="styleSheet">
-           <string notr="true">	background-color: #1155AD 	;</string>
+           <string notr="true">background-color: #1155AD;
+color : rgb(255,255,255)</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
@@ -74,9 +75,8 @@
         <item>
          <widget class="QLabel" name="lbl_count">
           <property name="styleSheet">
-           <string notr="true">	background-color: #1155AD;
-	border: 1px solid gray;
-	padding:5pc;</string>
+           <string notr="true">background-color: #1155AD;
+color : rgb(255,255,255)</string>
           </property>
           <property name="text">
            <string>99</string>
@@ -97,6 +97,9 @@
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">color:#ffffff;</string>
           </property>
           <property name="text">
            <string>TextLabel</string>
@@ -120,6 +123,10 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+                </property>
                 <property name="text">
                  <string>A</string>
                 </property>
@@ -132,6 +139,10 @@
                   <horstretch>0</horstretch>
                   <verstretch>0</verstretch>
                  </sizepolicy>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
                 </property>
                 <property name="text">
                  <string>B</string>
@@ -150,6 +161,10 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+                </property>
                 <property name="text">
                  <string>C</string>
                 </property>
@@ -163,8 +178,15 @@
                   <verstretch>0</verstretch>
                  </sizepolicy>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+                </property>
                 <property name="text">
                  <string>D</string>
+                </property>
+                <property name="shortcut">
+                 <string/>
                 </property>
                </widget>
               </item>
@@ -176,6 +198,10 @@
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
              <widget class="QPushButton" name="btn_start">
+              <property name="styleSheet">
+               <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+              </property>
               <property name="text">
                <string>Start</string>
               </property>
@@ -183,6 +209,10 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_skip">
+              <property name="styleSheet">
+               <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+              </property>
               <property name="text">
                <string>Skip</string>
               </property>
@@ -190,6 +220,10 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_rst">
+              <property name="styleSheet">
+               <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+              </property>
               <property name="text">
                <string>Rst Words</string>
               </property>
@@ -197,6 +231,10 @@
             </item>
             <item>
              <widget class="QPushButton" name="btn_exit">
+              <property name="styleSheet">
+               <string notr="true">background-color : rgb(48,48,48);
+color: #ffffff;</string>
+              </property>
               <property name="text">
                <string>End</string>
               </property>
@@ -219,13 +257,16 @@
      <x>0</x>
      <y>0</y>
      <width>443</width>
-     <height>35</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
   <widget class="QToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color : rgb(48,48,48);\ncolor: #ffffff;</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>

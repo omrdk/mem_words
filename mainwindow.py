@@ -1,4 +1,3 @@
-# This Python file uses the following encoding: utf-8
 import os
 import sys
 import time
@@ -15,17 +14,15 @@ from PyQt5.QtGui import QKeySequence
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QLabel, QMainWindow, QShortcut, QAction, qApp, QMessageBox
 
-file   = open('words.txt', 'r')         # *.txt file reading mode
-lines   = file.readlines()              # readlines
-file.close()                            # no longer need *.txt so close
+file   = open('words.txt', 'r')
+lines   = file.readlines()
+file.close()
 
 class mainwindow(QMainWindow):
     def __init__(self, *args, **kwargs):
         super(mainwindow, self).__init__(*args, **kwargs)
 
-
-
-        uic.loadUi("mainwindow.ui", self)   # ui import
+        uic.loadUi("mainwindow.ui", self)
         global true_word
         global tr_word
         global cnt_t
@@ -36,7 +33,7 @@ class mainwindow(QMainWindow):
         cnt_t = 0
         cnt_f = 3
         selected_indexes = []                                                   # indexes of selected lines
-        self.main_view()                                                        # First screen
+        self.main_view()
 
         # Toolbar configuration
         self.toolBar = self.findChild(QToolBar, "toolbar")
@@ -59,21 +56,12 @@ class mainwindow(QMainWindow):
         self.btn_C   = self.findChild(QPushButton, "btn_C")
         self.btn_D   = self.findChild(QPushButton, "btn_D")
 
-
-        # Shortcuts for buttons
-        #self.btn_A.setShortcut( QKeySequence("1") )
-        #self.btn_B.setShortcut( QKeySequence("2") )
-        #self.btn_C.setShortcut( QKeySequence("3") )
-        #self.btn_D.setShortcut( QKeySequence("4") )
-
-        #self.btn_A = QShortcut(QKeySequence('1'), self)
-        #self.btn_A.activated.connect(lambda: self.check_word(self.btn_A.()))
-
         self.btn_start.clicked.connect(self.back_count)                         # if btn_start is pressed then call fill_word function
         self.btn_skip.clicked.connect(self.fill_word)
         self.btn_exit.clicked.connect(self.main_view)
         self.btn_rst.clicked.connect(self.rst_words)
-        self.btn_A.clicked.connect(lambda: self.check_word(self.btn_A.text()))  # btn_A'nın text'ini check_word fonksiyonuna gönderir
+
+        self.btn_A.clicked.connect(lambda: self.check_word(self.btn_A.text()))  # send text of btn_A to check_word func.
         self.btn_B.clicked.connect(lambda: self.check_word(self.btn_B.text()))  # if btn_start is pressed then call main_page function
         self.btn_C.clicked.connect(lambda: self.check_word(self.btn_C.text()))
         self.btn_D.clicked.connect(lambda: self.check_word(self.btn_D.text()))
@@ -82,7 +70,7 @@ class mainwindow(QMainWindow):
     # open words.txt
     def open_txt(self):
         pygame.mixer.init()
-        pygame.mixer.music.load('sounds/page-open.wav')                         # only for wav files and you have to install pygame from pip
+        pygame.mixer.music.load('sounds/page-open.wav')                         # only for wav files
         pygame.mixer.music.play(1)
         #os.system("kate words.txt")
         subprocess.call(('xdg-open', 'words.txt'))                              # opens a file default OS app
@@ -93,13 +81,9 @@ class mainwindow(QMainWindow):
             event.accept()
         else:
             event.ignore()
-
+    # First screen
     def main_view(self):
         # Start-up content and states
-        self.btn_A.setStyleSheet("background-color : rgb(48,48,48)")
-        self.btn_B.setStyleSheet("background-color : rgb(48,48,48)")
-        self.btn_C.setStyleSheet("background-color : rgb(48,48,48)")
-        self.btn_D.setStyleSheet("background-color : rgb(48,48,48)")
         self.lbl_word.setText("Press START")                                    # print en_word to lbl_word label
         self.lbl_count.setText(str(cnt_t))
         self.lbl_HP.setText(str(cnt_f))
@@ -110,16 +94,12 @@ class mainwindow(QMainWindow):
         self.btn_B.setEnabled(False)
         self.btn_C.setEnabled(False)
         self.btn_D.setEnabled(False)
-
     # Count back
     def back_count(self):
         for i in range(3,0,-1):
             if i > 0:
                 self.lbl_word.setText(str(i))
                 QtTest.QTest.qWait(1000)
-                pygame.mixer.init()
-                pygame.mixer.music.load('sounds/countdown.wav')                         # only for wav files and you have to install pygame from pip
-                pygame.mixer.music.play(1)                                        #  time.sleep() is freezing the GUI!!
         self.fill_word()
         # Init states for buttons
         self.btn_skip.setEnabled(True)                                          # skip button is checkable now
@@ -151,9 +131,10 @@ class mainwindow(QMainWindow):
         btn_lst = [self.btn_A, self.btn_B, self.btn_C, self.btn_D]
         random_nums = []                                                        # şıkların satır sayıları
         words = []
+
         for i in range(0,4,1):
             random_num = random.randint(0,len(lines) - 1)
-            while ((random_num in random_nums) or (random_num in selected_indexes)):               # gelen sayı random list'te varsa veya önceden seçilmişse tekrar random al
+            while ((random_num in random_nums) or (random_num in selected_indexes)):  # gelen sayı random list'te varsa veya önceden seçilmişse tekrar random al
                 random_num = random.randint(0,len(lines) - 1)
             random_nums.append(random_num)
             random_word = lines[random_num]
@@ -171,8 +152,6 @@ class mainwindow(QMainWindow):
                 global blink_v
                 blink_v = j
             choice_list.remove(j)                                               # boş şık kalmasın
-        #print(*random_nums)
-
     # Check the words, if they match than plus 1 true counter(cnt_t), else minus 1 false counter(cnt_f)
     def check_word(self, btn_word):
         global true_word
@@ -181,9 +160,8 @@ class mainwindow(QMainWindow):
             cnt_t+=1
             self.lbl_count.setText(str(cnt_t))
             pygame.mixer.init()
-            pygame.mixer.music.load('sounds/true.wav')                         # only for wav files and you have to install pygame from pip
+            pygame.mixer.music.load('sounds/true.wav')
             pygame.mixer.music.play(1)
-
             self.fill_word()
         else:
             self.wrong_blink()
@@ -194,7 +172,6 @@ class mainwindow(QMainWindow):
                 self.main_view()
                 return
             self.fill_word()
-
     # btn_rst basıldığında tekrarlanan sayıları tekrar listeye ekler
     def rst_words(self):
         global selected_indexes
@@ -202,21 +179,21 @@ class mainwindow(QMainWindow):
 
     def wrong_blink(self):
         pygame.mixer.init()
-        pygame.mixer.music.load('sounds/wrong.wav')                         # only for wav files and you have to install pygame from pip
+        pygame.mixer.music.load('sounds/wrong.wav')
         pygame.mixer.music.play(1)
-        self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0)")
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
+        self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0); color : rgb(255,255,255)")  # you have to redefine the color, otherwise default black
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
+        QtTest.QTest.qWait(150)                                                             #  time.sleep() is freezing the GUI!!
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0)")
-        QtTest.QTest.qWait(150)
-        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48)")
-        self.lbl_HP.setStyleSheet("background-color : #1155AD")
+        btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
+        self.lbl_HP.setStyleSheet("background-color : #1155AD; color : rgb(255,255,255)")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

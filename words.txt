@@ -1,4 +1,4 @@
-System aborted = Sistem iptal edildi.
+System aborted = Sistem iptal edildi
 Integer = Tamsayı
 Instruction = Talimat
 polling = sorgulamak
@@ -17,7 +17,7 @@ destructive = zararlı
 impair = bozmak,zayıflatmak
 Quiescent = durgun,hareketsiz,pasif
 repetitive = tekrarlayan
-solid=state = katı hal
+solid state = katı hal
 remarkable = dikkate değer
 precision = hassas(sıfat), hassasiyet(isim)
 harmonic distortion = harmonik bozulma
@@ -177,3 +177,6 @@ fulcrum = dayanak-destek noktası
 construct = kurmak
 polynomial = polinom, çok terimli
 consult = danışmak, başvurmak
+algebraic = cebirsel
+redrawn = yeniden çizilmiş
+robust = güçlü, kuvvetli
