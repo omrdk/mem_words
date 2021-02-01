@@ -181,6 +181,10 @@ class mainwindow(QMainWindow):
         pygame.mixer.init()
         pygame.mixer.music.load('sounds/wrong.wav')
         pygame.mixer.music.play(1)
+        self.btn_A.setEnabled(False)                # for double click bug
+        self.btn_B.setEnabled(False)
+        self.btn_C.setEnabled(False)
+        self.btn_D.setEnabled(False)
         self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0); color : rgb(255,255,255)")  # you have to redefine the color, otherwise default black
         btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)                                                             #  time.sleep() is freezing the GUI!!
@@ -194,6 +198,10 @@ class mainwindow(QMainWindow):
         QtTest.QTest.qWait(150)
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
         self.lbl_HP.setStyleSheet("background-color : #1155AD; color : rgb(255,255,255)")
+        self.btn_A.setEnabled(True)
+        self.btn_B.setEnabled(True)
+        self.btn_C.setEnabled(True)
+        self.btn_D.setEnabled(True)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
