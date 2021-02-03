@@ -38,14 +38,26 @@ class mainwindow(QMainWindow):
         # Toolbar configuration
         self.toolBar = self.findChild(QToolBar, "toolbar")
         self.actionDictionary.triggered.connect(self.open_txt)
-        self.actionDictionary.setIcon(QIcon("notebook--plus.png"))
+        self.actionDictionary.setIcon(QIcon("images/notebook--plus.png"))
         # Window configuration
         self.setWindowTitle("Memorizar")
         self.setFixedSize(400, 480)
         # Label definitions
-        self.lbl_HP  = self.findChild(QLabel,     "lbl_HP"    )
+        #self.lbl_HP  = self.findChild(QLabel,     "lbl_HP"    )
         self.lbl_word  = self.findChild(QLabel,  "lbl_word" )
         self.lbl_count  = self.findChild(QLabel, "lbl_count")
+
+        self.lbl_1 = self.findChild(QLabel, "lbl_1")
+        self.lbl_2 = self.findChild(QLabel, "lbl_2")
+        self.lbl_3 = self.findChild(QLabel, "lbl_3")
+
+        # Heart.png pixmap
+        pixmap = QPixmap('images/heart.png')
+        self.lbl_1.setPixmap(pixmap)
+        self.lbl_2.setPixmap(pixmap)
+        self.lbl_3.setPixmap(pixmap)
+
+
         # Button definitions
         self.btn_skip  = self.findChild(QPushButton, "btn_skip" )
         self.btn_start = self.findChild(QPushButton, "btn_start")
@@ -86,7 +98,7 @@ class mainwindow(QMainWindow):
         # Start-up content and states
         self.lbl_word.setText("Press START")                                    # print en_word to lbl_word label
         self.lbl_count.setText(str(cnt_t))
-        self.lbl_HP.setText(str(cnt_f))
+        #self.lbl_HP.setText(str(cnt_f))
         self.btn_skip.setEnabled(False)
         self.btn_rst.setEnabled(False)
         self.btn_start.setEnabled(True)
@@ -96,6 +108,10 @@ class mainwindow(QMainWindow):
         self.btn_D.setEnabled(False)
     # Count back
     def back_count(self):
+        # fill hearts
+        self.lbl_1.show()
+        self.lbl_2.show()
+        self.lbl_3.show()
         for i in range(3,0,-1):
             if i > 0:
                 self.lbl_word.setText(str(i))
@@ -114,7 +130,7 @@ class mainwindow(QMainWindow):
         cnt_t = 0
         cnt_f = 3
         self.lbl_count.setText(str(cnt_t))
-        self.lbl_HP.setText(str(cnt_f))
+        #self.lbl_HP.setText(str(cnt_f))
     # Insert to 'r' a random line number from words.txt and assign the name one of our buttons then do this for every index
     def fill_word(self):
         global selected_indexes
@@ -167,8 +183,13 @@ class mainwindow(QMainWindow):
             self.wrong_blink()
             global cnt_f
             cnt_f-=1
-            self.lbl_HP.setText(str(cnt_f))
-            if cnt_f == 0:
+            #self.lbl_HP.setText(str(cnt_f))
+            if cnt_f == 2:
+                self.lbl_3.hide()
+            elif cnt_f == 1:
+                self.lbl_2.hide()
+            else:
+                self.lbl_1.hide()
                 self.main_view()
                 return
             self.fill_word()
@@ -185,7 +206,7 @@ class mainwindow(QMainWindow):
         self.btn_B.setEnabled(False)
         self.btn_C.setEnabled(False)
         self.btn_D.setEnabled(False)
-        self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0); color : rgb(255,255,255)")  # you have to redefine the color, otherwise default black
+        #self.lbl_HP.setStyleSheet("background-color : rgb(198,0,0); color : rgb(255,255,255)")  # you have to redefine the color, otherwise default black
         btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)                                                             #  time.sleep() is freezing the GUI!!
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
@@ -197,7 +218,7 @@ class mainwindow(QMainWindow):
         btn_lst[blink_v].setStyleSheet("background-color : rgb(0,198,0); color : rgb(255,255,255)")
         QtTest.QTest.qWait(150)
         btn_lst[blink_v].setStyleSheet("background-color : rgb(48,48,48); color : rgb(255,255,255)")
-        self.lbl_HP.setStyleSheet("background-color : #1155AD; color : rgb(255,255,255)")
+        #self.lbl_HP.setStyleSheet("background-color : #1155AD; color : rgb(255,255,255)")
         self.btn_A.setEnabled(True)
         self.btn_B.setEnabled(True)
         self.btn_C.setEnabled(True)
